@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>DOM safe</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';"><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+  <div class="container">
+    <h1>DOM demo (защищено)</h1>
+    <p id="output">hash goes here</p>
+    <script src="https://unpkg.com/dompurify@2.4.0/dist/purify.min.js"></script>
+    <script>
+      const hash = decodeURIComponent(location.hash.substring(1) || '');
+      const safe = DOMPurify.sanitize(hash, {ALLOWED_TAGS: []});
+      document.getElementById('output').textContent = safe;
+    </script>
+  </div>
+</body>
+</html>

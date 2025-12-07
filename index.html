@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Исправленный демонстрационный сайт — XSS обучение</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Исправленный демонстрационный сайт</h1>
+    <section>
+      <h2>Reflected example (без выполнения)</h2>
+      <form id="searchForm">
+        <input id="q" name="q" placeholder="вставь payload или текст">
+        <button>Показать</button>
+      </form>
+      <p>Результат:</p>
+      <div id="result"></div>
+    </section>
+    <hr>
+    <section>
+      <h2>DOM example (защищено)</h2>
+      <p>Открой /dom.html#payload или установи хэш через консоль</p>
+      <a href="dom.html">Перейти к DOM demo</a>
+      <div id="domPreview"></div>
+    </section>
+    <hr>
+    <section>
+      <h2>Туториал</h2>
+      <p>Коротко: почему XSS опасен и как его предотвращать.</p>
+    </section>
+  </div>
+  <script src="https://unpkg.com/dompurify@2.4.0/dist/purify.min.js"></script>
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const q = document.getElementById('q').value || '';
+      const safe = DOMPurify.sanitize(q, {ALLOWED_TAGS: []});
+      document.getElementById('result').textContent = safe;
+    });
+  </script>
+</body>
+</html>
